@@ -3,10 +3,10 @@ from venv import logger
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 
-from DoYourTasks.models import TaskCreate, TaskUpdate
+from models import TaskCreate, TaskUpdate
 from fastapi import APIRouter
 
-from DoYourTasks.routes import (
+from routes import (
     tasks
 )
 app = FastAPI()

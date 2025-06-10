@@ -2,8 +2,8 @@ from typing import List
 from venv import logger
 
 from fastapi import APIRouter, HTTPException
-from DoYourTasks.Enum.priorite import PrioriteEnum
-from DoYourTasks.models import Task, TaskCreate, TaskUpdate
+from Enum.priorite import PrioriteEnum
+from models import Task, TaskCreate, TaskUpdate
 
 router = APIRouter(prefix="/tasks")
 
