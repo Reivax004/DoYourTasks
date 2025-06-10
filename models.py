@@ -2,7 +2,7 @@ from datetime import datetime
 from typing import Optional
 from pydantic import BaseModel, ConfigDict, Field
 
-from DoYourTasks.Enum.priorite import PrioriteEnum
+from Enum.priorite import PrioriteEnum
 
 
 class TaskCreate(BaseModel):

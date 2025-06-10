@@ -4,20 +4,16 @@ from venv import logger
 from fastapi import APIRouter, HTTPException
 from Enum.priorite import PrioriteEnum
 from models import Task, TaskCreate, TaskUpdate
+from services.tasks import completed_tasks, get_next_id, get_percentage_tasks
 
 router = APIRouter(prefix="/tasks")
 
 tasks_db: List[Task] = []
 
 
-async def get_next_id():
-    if not tasks_db:
-        return 0
-    return max(task.id for task in tasks_db) + 1
-
 @router.post("/create")
 async def create_task(task :TaskCreate):
-    task = Task(id=await get_next_id(), **task.model_dump())
+    task = Task(id=await get_next_id(tasks_db), **task.model_dump())
     tasks_db.append(task)
     return {"message" : "Tache ajoutée avec succès"}
 
@@ -27,18 +23,8 @@ async def show_tasks():
 
 @router.get("/completer")
 async def completed_tasks_route():
-    return await completed_tasks()
+    return await completed_tasks(tasks_db)
 
-
-async def completed_tasks():
-    done = 0
-    in_progress = 0
-    for task in tasks_db:
-        if task.completed == True:
-            done = done + 1
-        else:
-            in_progress = in_progress + 1
-    return {"message" : f"Tâches terminées : {done} / Tâches en cours : {in_progress}"}
 
 @router.get("/recherche")
 async def find_by_word(word : str):
@@ -62,6 +48,11 @@ async def sort_by_priority():
         key=lambda t: priority_order.get(t.priorite, 3)
     )
     return sorted_tasks
+
+@router.get("/taux")
+async def percentage_done():
+    return await get_percentage_tasks(tasks_db)
+
 
 @router.get("/{id}")
 async def get_task(id :int):
