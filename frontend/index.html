@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Créer une Tâche</title>
+</head>
+<body>
+  <h1>Créer une nouvelle tâche</h1>
+  <form id="taskForm">
+    <label>Thème :
+      <input type="text" name="theme" />
+    </label><br><br>
+
+    <label>Description*:
+      <input type="text" name="description" required />
+    </label><br><br>
+
+    <label>Priorité :
+      <select name="priorite">
+        <option value="">--Choisir--</option>
+        <option value="basse">Basse</option>
+        <option value="moyenne">Moyenne</option>
+        <option value="haute">Haute</option>
+      </select>
+    </label><br><br>
+
+    <label>Terminée :
+      <input type="checkbox" name="completed" />
+    </label><br><br>
+
+    <button type="submit">Créer</button>
+  </form>
+
+  <h2>Liste des tâches</h2>
+  <ul id="taskList"></ul>
+
+  <script>
+    document.getElementById("taskForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const formData = new FormData(e.target);
+
+      // Pour les checkboxes : on doit fixer "completed" à false si non coché
+      if (!formData.has("completed")) {
+        formData.append("completed", "false");
+      }
+
+      const response = await fetch("http://127.0.0.1:8000/tasks/create", {
+        method: "POST",
+        body: new URLSearchParams(formData),
+      });
+
+      if (!response.ok) {
+        alert("Erreur lors de la création de la tâche.");
+        return;
+      }
+
+      const task = await response.json();
+
+      const li = document.createElement("li");
+      li.innerText = `${task.description} (${task.priorite || "aucune priorité"})`;
+      document.getElementById("taskList").appendChild(li);
+
+      e.target.reset();
+    });
+  </script>
+</body>
+</html>
