@@ -72,7 +72,7 @@ async def delete_task(id :int):
 async def update_task(id : int):
     task = await get_task(id)
     task.completed = True
-    return {"message" : f"Tâche {await get_task(id).description} terminée"}
+    return {"message" : f"Tâche {task.description} terminée"}
 
 @router.patch("/modifier/{id}", name="Modifier une tâche")
 async def update_task(id : int, task : TaskUpdate):

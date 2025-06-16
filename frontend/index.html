@@ -34,35 +34,115 @@
   <h2>Liste des tâches</h2>
   <ul id="taskList"></ul>
 
+  <h2>Tâches completées</h2>
+  <p id="taskRatio">Ratio : </p>
+  <p id="taskInProgress"></p>
+
+
   <script>
-    document.getElementById("taskForm").addEventListener("submit", async (e) => {
-      e.preventDefault();
 
-      const formData = new FormData(e.target);
+  const form = document.getElementById("taskForm");
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
 
-      // Pour les checkboxes : on doit fixer "completed" à false si non coché
-      if (!formData.has("completed")) {
-        formData.append("completed", "false");
-      }
-
+    const formData = new FormData(form);
+    const json = {
+      theme: formData.get("theme"),
+      description: formData.get("description"),
+      completed: formData.get("completed") === "on",
+      priorite: formData.get("priorite"),
+    };
+    console.log(json)
+    try {
       const response = await fetch("http://127.0.0.1:8000/tasks/create", {
         method: "POST",
-        body: new URLSearchParams(formData),
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(json),
       });
 
-      if (!response.ok) {
-        alert("Erreur lors de la création de la tâche.");
-        return;
-      }
+      const result = await response.json();
+      console.log("Réponse du serveur :", result);
+    } catch (error) {
+      console.error("Erreur lors de l'envoi :", error);
+    }
+  });
 
-      const task = await response.json();
+    
+  window.addEventListener("DOMContentLoaded", async () => {
+    try {
+      const response = await fetch("http://127.0.0.1:8000/tasks/list", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
-      const li = document.createElement("li");
-      li.innerText = `${task.description} (${task.priorite || "aucune priorité"})`;
-      document.getElementById("taskList").appendChild(li);
+      const tasks = await response.json();
 
-      e.target.reset();
-    });
-  </script>
+      const taskList = document.getElementById("taskList");
+
+      tasks.forEach((task) => {
+        const li = document.createElement("li");
+        li.textContent = `${task.theme ?? "Sans thème"} - ${task.description} (${task.priorite ?? "pas de priorité"})`;
+        taskList.appendChild(li);
+      });
+    } catch (error) {
+      console.error("Erreur lors du chargement des tâches :", error);
+    }
+  });
+
+
+
+
+  window.addEventListener("DOMContentLoaded", async () => {
+    try {
+      const response = await fetch("http://127.0.0.1:8000/tasks/taux", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      const ratio = await response.json();
+
+      const taskRatio = document.getElementById("taskRatio");
+
+
+      const p = document.createElement("p");
+      p.textContent = `${ratio.message}`;
+      taskRatio.appendChild(p);
+      
+    } catch (error) {
+      console.error("Erreur lors du chargement des tâches :", error);
+    }
+  });
+
+  window.addEventListener("DOMContentLoaded", async () => {
+    try {
+      const response = await fetch("http://127.0.0.1:8000/tasks/completer", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      const done = await response.json();
+
+      const taskDone = document.getElementById("taskInProgress");
+
+
+      const p = document.createElement("p");
+      p.textContent = `${done.message}`;
+      taskDone.appendChild(p);
+      
+    } catch (error) {
+      console.error("Erreur lors du chargement des tâches :", error);
+    }
+  });
+
+</script>
+
 </body>
 </html>

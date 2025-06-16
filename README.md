@@ -14,3 +14,9 @@ Liste des API :
  - Delete supprime une task by id
  - Patch complete une task
  - Patch modifie une tasks
+
+Liste des API (front):
+ - Post créer une task
+ - Get affiche le pourcentage de tasks completées
+ - Get affiche le nombre de task finis / en cours
+ - Get list des tasks
