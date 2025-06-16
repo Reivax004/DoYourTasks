@@ -1,0 +1,61 @@
+🔁 1. PUT /tasks/{id}/toggle
+Objectif : Basculer l’état completed d’une tâche (vrai/faux) sans devoir tout renvoyer.
+
+Backend : Cherche la tâche par ID, inverse completed et renvoie la tâche modifiée.
+
+Frontend : Bouton à côté de chaque tâche pour marquer comme fait/pas fait.
+
+📆 2. GET /tasks/today
+Objectif : Retourner les tâches créées aujourd’hui.
+
+Backend : Filtre les tâches dont created_at.date() correspond à aujourd’hui.
+
+Frontend : Affiche les tâches du jour dans une section dédiée.
+
+🔍 3. GET /tasks/search?query=...
+Objectif : Rechercher les tâches par mot-clé (description ou theme).
+
+Backend : Filtre les tâches contenant le mot dans description ou theme.
+
+Frontend : Champ de recherche dynamique en haut.
+
+📊 4. GET /tasks/stats
+Objectif : Statistiques globales :
+
+json
+Copier
+Modifier
+{
+  "total": 20,
+  "completed": 12,
+  "pending": 8,
+  "by_priorite": {
+    "haute": 5,
+    "moyenne": 10,
+    "basse": 5
+  }
+}
+Backend : Compte les tâches par statut et priorité.
+
+Frontend : Affiche un petit tableau ou graphique.
+
+📅 5. POST /tasks/bulk_create
+Objectif : Créer plusieurs tâches d’un coup.
+
+Backend : Accepte une liste de TaskCreate, les ajoute toutes.
+
+Frontend : Formulaire avec plusieurs lignes à remplir (type Google Sheets).
+
+🗑 6. DELETE /tasks/completed
+Objectif : Supprimer toutes les tâches terminées.
+
+Backend : Filtre et supprime toutes les tâches avec completed == True.
+
+Frontend : Bouton "Vider les tâches terminées".
+
+🧠 7. GET /tasks/suggest
+Objectif : Suggérer une tâche à faire (ex: la plus urgente ou la plus ancienne non faite).
+
+Backend : Renvoie une tâche non complétée, avec la priorité la plus haute ou plus ancienne.
+
+Frontend : Bouton "Je ne sais pas quoi faire ! 😅".
