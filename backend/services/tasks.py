@@ -23,5 +23,5 @@ async def get_percentage_tasks(tasks_db : List[Task]):
     for task in tasks_db:
         if task.completed == True:
             done+=1
-    done = round((done/len(tasks_db))*100,2)
+    done = round((done/len(tasks_db))*100,1)
     return {"message" : f"{done}% des tâches terminées"}

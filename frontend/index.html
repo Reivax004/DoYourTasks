@@ -56,7 +56,7 @@
   </div>
 
   <script>
-    // Gestionnaire d'événements pour le formulaire
+    // Création tâche
     const form = document.getElementById("taskForm");
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
@@ -84,9 +84,9 @@
         console.error("Erreur lors de l'envoi :", error);
       }
     });
-    // Chargement des tâches et affichage
+    // Listes des tâches
     window.addEventListener("DOMContentLoaded", async () => {
-      try {
+      async function afficherTaches(){
         const response = await fetch("http://127.0.0.1:8000/tasks/list", {
           method: "GET",
           headers: {
@@ -102,13 +102,38 @@
           const li = document.createElement("li");
           li.classList.add("list-group-item");
           li.textContent = `${task.theme ?? "Sans thème"} - ${task.description} - ${task.priorite ?? "pas de priorité"} - ${task.completed == true ? "Terminée" : "En cours"}`;
+          
+          const deleteButton = document.createElement('button');
+          deleteButton.textContent = 'Supprimer';
+          deleteButton.classList.add('btn', 'btn-danger', 'btn-sm', 'ml-2');
+          
+          deleteButton.addEventListener('click', async (e) => {
+            e.preventDefault();
+              taskList.removeChild(li);
+
+            try {
+              const response = await fetch("http://127.0.0.1:8000/tasks/delete/{id}", {
+                method: "DELETE",
+                headers: {
+                  "Content-Type": "application/json",
+                }
+              });
+
+              const result = await response.json();
+
+              console.log("Réponse du serveur :", result);
+            } catch (error) {
+              console.error("Erreur lors de l'envoi :", error);
+            }
+          });
+
+          li.appendChild(deleteButton);
           taskList.appendChild(li);
+
         });
-      } catch (error) {
-        console.error("Erreur lors du chargement des tâches :", error);
-      }
-    });
-    // Chargement du ratio des tâches complétées
+      
+    }});
+    // Ratio des tâches complétées
     window.addEventListener("DOMContentLoaded", async () => {
       try {
         const response = await fetch("http://127.0.0.1:8000/tasks/taux", {
@@ -127,7 +152,7 @@
         console.error("Erreur lors du chargement des tâches :", error);
       }
     });
-    // Chargement des tâches en cours/terminées
+    // Tâches en cours/terminées
     window.addEventListener("DOMContentLoaded", async () => {
       try {
         const response = await fetch("http://127.0.0.1:8000/tasks/completer", {
@@ -144,6 +169,26 @@
         taskDone.appendChild(p);
       } catch (error) {
         console.error("Erreur lors du chargement des tâches :", error);
+      }
+    });
+    const deleteButton = document.getElementById("button");
+    deleteButton.addEventListener('click', async (e) => {
+      e.preventDefault();
+        taskList.removeChild(li);
+
+      try {
+        const response = await fetch("http://127.0.0.1:8000/tasks/delete/{id}", {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          }
+        });
+
+        const result = await response.json();
+
+        console.log("Réponse du serveur :", result);
+      } catch (error) {
+        console.error("Erreur lors de l'envoi :", error);
       }
     });
   </script>

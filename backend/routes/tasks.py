@@ -62,7 +62,7 @@ async def get_task(id :int):
     raise HTTPException(status_code=404, detail="Tâche non trouvée")
 
 
-@router.delete("/{id}")
+@router.delete("/delete/{id}")
 async def delete_task(id :int):
     tasks_db.remove(await get_task(id))
     return {"message" : "Tâche supprimée avec succès"}
