@@ -70,6 +70,7 @@ async def delete_task(id :int):
 
 @router.patch("/terminer/{id}", name="Marquer comme terminé")
 async def update_task(id : int):
+    logger.info(id)
     task = await get_task(id)
     task.completed = True
     return {"message" : f"Tâche {task.description} terminée"}

@@ -112,7 +112,7 @@
               taskList.removeChild(li);
 
             try {
-              const response = await fetch("http://127.0.0.1:8000/tasks/delete/{id}", {
+              const response = await fetch(`http://127.0.0.1:8000/tasks/delete/${task.id}`, {
                 method: "DELETE",
                 headers: {
                   "Content-Type": "application/json",
@@ -126,13 +126,61 @@
               console.error("Erreur lors de l'envoi :", error);
             }
           });
+          const completedButton = document.createElement('button');
+          completedButton.textContent = 'Completer';
+          completedButton.classList.add('btn', 'btn-danger', 'btn-sm', 'ml-2');
+          
+          completedButton.addEventListener('click', async (e) => {
+            e.preventDefault();
+
+            try {
+              const response = await fetch(`http://127.0.0.1:8000/tasks/terminer/${task.id}`, {
+                method: "PATCH",
+                headers: {
+                  "Content-Type": "application/json",
+                }
+              });
+
+              if (!response.ok) {
+                console.error("Erreur serveur lors de la suppression.");
+              }
+            } catch (error) {
+              console.error("Erreur lors de l'envoi :", error);
+            }
+          });
+          /* const patchButton = document.createElement('button');
+          patchButton.textContent = 'Modifier';
+          patchButton.classList.add('btn', 'btn-danger', 'btn-sm', 'ml-2');
+          
+          patchButton.addEventListener('click', async (e) => {
+            e.preventDefault();
+
+            try {
+              const response = await fetch("http://127.0.0.1:8000/tasks/modifier/{id}", {
+                method: "PATCH",
+                headers: {
+                  "Content-Type": "application/json",
+                }
+              });
+
+              const result = await response.json();
+
+              console.log("Réponse du serveur :", result);
+            } catch (error) {
+              console.error("Erreur lors de l'envoi :", error);
+            }
+          });
+          li.appendChild(patchButton); */
 
           li.appendChild(deleteButton);
+          li.appendChild(completedButton);
           taskList.appendChild(li);
 
         });
       
-    }});
+    }
+    await afficherTaches();
+  });
     // Ratio des tâches complétées
     window.addEventListener("DOMContentLoaded", async () => {
       try {
