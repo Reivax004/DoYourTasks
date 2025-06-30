@@ -1,0 +1,44 @@
+# Ignorer les fichiers Python compilés
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Environnement virtuel
+venv/
+env/
+.venv/
+.env/
+
+# Fichiers de configuration perso
+*.env
+*.env.*
+
+# Ignorer les logs et fichiers temporaires
+*.log
+*.sqlite3
+*.db
+*.tmp
+*.bak
+
+# Dossiers de test ou de build
+dist/
+build/
+*.egg-info/
+
+# VSCode
+.vscode/
+
+# macOS
+.DS_Store
+
+# Pytest cache
+.pytest_cache/
+.cache/
+
+# Migrations (si gérées manuellement)
+migrations/
+
+# MyPy / Pylint / autres outils
+.mypy_cache/
+.coverage
+htmlcov/
