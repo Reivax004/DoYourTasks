@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import date, datetime
 from typing import Optional
 from pydantic import BaseModel, ConfigDict, Field
 
@@ -10,6 +10,7 @@ class TaskCreate(BaseModel):
     description : str
     completed : bool = False
     priorite : Optional[PrioriteEnum]
+    deadline : Optional[date]
     model_config = ConfigDict(
         json_schema_extra={
             "examples": [
@@ -18,6 +19,7 @@ class TaskCreate(BaseModel):
                     "description": "reviser",
                     "completed" : False,
                     "priorite" : "basse",
+                    "deadline" : "2019-12-04"
                 }
             ]
         }
