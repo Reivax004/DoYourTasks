@@ -13,8 +13,10 @@ tasks_db: List[Task] = []
 
 @router.post("/create")
 async def create_task(task :TaskCreate):
+    logger.info("vf")
     task = Task(id=await get_next_id(tasks_db), **task.model_dump())
     tasks_db.append(task)
+    logger.info(task)
     return {"message" : "Tache ajoutée avec succès"}
 
 @router.get("/list")

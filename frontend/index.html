@@ -16,54 +16,58 @@
 </head>
 <body class="bg-light">
 
-  <div class="container-fluid my-4">
-    <div class="row">
-      <!-- Barre latérale gauche : Liste des tâches -->
-      <div class="col-md-4 sidebar bg-white p-3">
-        <h4 class="mb-3">Liste des tâches</h4>
-        <ul id="taskList" class="list-group"></ul>
+<div class="container-fluid my-4">
+  <div class="row">
+    <!-- Sidebar -->
+    <div class="col-md-4 sidebar bg-white p-3">
+      <h4 class="mb-3">Liste des tâches</h4>
+  <div id="taskList" class="d-flex flex-column gap-2"></div>
 
-        <div class="mt-4">
-          <h5>Tâches complétées</h5>
-          <p id="taskRatio" class="fw-bold">Ratio :</p>
-          <p id="taskInProgress"></p>
-        </div>
+      <div class="mt-4">
+        <h5>Tâches complétées</h5>
+        <p id="taskRatio" class="fw-bold">Ratio :</p>
+        <p id="taskInProgress"></p>
       </div>
+    </div>
 
-      <!-- Colonne principale : Formulaire -->
-      <div class="col-md-8">
-        <h1 class="text-center mb-4">Créer une nouvelle tâche</h1>
-        <div class="card shadow-sm">
-          <div class="card-body">
-            <form id="taskForm">
-              <div class="mb-3">
-                <label class="form-label">Thème :</label>
-                <input type="text" name="theme" class="form-control" />
-              </div>
-              <div class="mb-3">
-                <label class="form-label">Description* :</label>
-                <input type="text" name="description" required class="form-control" />
-              </div>
-              <div class="mb-3">
-                <label class="form-label">Priorité :</label>
-                <select name="priorite" class="form-select">
-                  <option value="">--Choisir--</option>
-                  <option value="basse">Basse</option>
-                  <option value="moyenne">Moyenne</option>
-                  <option value="haute">Haute</option>
-                </select>
-              </div>
-              <div class="form-check mb-3">
-                <input type="checkbox" name="completed" class="form-check-input" id="completedCheck" />
-                <label class="form-check-label" for="completedCheck">Terminée</label>
-              </div>
-              <button type="submit" class="btn btn-primary">Créer</button>
-            </form>
-          </div>
+    <!-- Main Content -->
+    <div class="col-md-8">
+      <h1 class="text-center mb-4">Créer une nouvelle tâche</h1>
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <form id="taskForm">
+            <div class="mb-3">
+              <label class="form-label">Thème :</label>
+              <input type="text" name="theme" class="form-control" />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Description* :</label>
+              <input type="text" name="description" required class="form-control" />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Priorité :</label>
+              <select name="priorite" class="form-select">
+                <option value="">--Choisir--</option>
+                <option value="basse">Basse</option>
+                <option value="moyenne">Moyenne</option>
+                <option value="haute">Haute</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Date limite :</label>
+              <input type="datetime-local" name="due_date" class="form-control" />
+            </div>
+            <div class="form-check mb-3">
+              <input type="checkbox" name="completed" class="form-check-input" id="completedCheck" />
+              <label class="form-check-label" for="completedCheck">Terminée</label>
+            </div>
+            <button type="submit" class="btn btn-primary">Créer</button>
+          </form>
         </div>
       </div>
     </div>
   </div>
+</div>
 
 
   <script>
@@ -78,6 +82,7 @@
         description: formData.get("description"),
         completed: formData.get("completed") === "on",
         priorite: formData.get("priorite"),
+        deadline: formData.get("deadline"),
       };
       console.log(json)
       try {
