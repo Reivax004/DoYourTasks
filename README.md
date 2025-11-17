@@ -2,7 +2,7 @@
 Todolist basic en fastapi
 
 
-Liste des API : 
+Liste des endpoints : 
 
  - Post créer une task
  - Get task by id
@@ -15,7 +15,7 @@ Liste des API :
  - Patch complete une task
  - Patch modifie une tasks
 
-Liste des API (front):
+Liste des endpoints (front):
  - Post créer une task
  - Get affiche le pourcentage de tasks completées
  - Get affiche le nombre de task finis / en cours
